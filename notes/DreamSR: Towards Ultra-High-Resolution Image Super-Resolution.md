@@ -1,6 +1,6 @@
 ## General overview
 
-DreamSR (CVPR 2026 / arXiv 2605.15682) proposes a diffusion-based super-resolution system tailored for ultra-high-resolution (4K+) images and for patch-wise inference regimes common in large-image restoration. The paper addresses two core failure modes of patch-wise diffusion SR: (1) local over-generation where patches hallucinate inconsistent/global features, and (2) insufficient local texture/detail when global context is missing. DreamSR combines a receptive-field–enhanced diffusion transformer backbone with a dual-branch multi-modal ControlNet (MM-ControlNet) to fuse local patch cues and global semantics, and uses a stage-specific training and inference strategy to produce faithful, high-detail SR for very large images.
+DreamSR proposes a diffusion-based super-resolution system tailored for ultra-high-resolution images and for patch-wise inference regimes common in large-image restoration. The paper addresses two core failure modes of patch-wise diffusion SR: (1) local over-generation where patches hallucinate inconsistent/global features, and (2) insufficient local texture/detail when global context is missing. DreamSR combines a receptive-field–enhanced diffusion transformer backbone with a dual-branch multi-modal ControlNet (MM-ControlNet) to fuse local patch cues and global semantics, and uses a stage-specific training and inference strategy to produce faithful, high-detail SR for very large images.
 
 ## Key contributions
 
