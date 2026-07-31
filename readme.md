@@ -16,10 +16,10 @@
 | 2B | Blur detection (gate) | Laplacian variance / FFT spectral energy / lightweight CNN classifier | No dedicated 2025–2026 paper — this is a well-established classical technique, correctly described as such | Sub-millisecond, no training required for the classical version | Trivial to implement, interpretable threshold | Classical variance methods are noise-sensitive; CNN variant needs labelled data | Any blur/sharp paired set (GoPro, RealBlur) for threshold calibration | Low |
 | 2C | Deblurring | ID-CDM (zero-shot consistency-distillation deblurring) | Wang, Chen & Dai, **Zero-Shot Realistic Image Deblurring with Consistency Model (ID-CDM)**, *Complex & Intelligent Systems*, 2025 | Confirmed 2025 publication; explicitly zero-shot (no deblurring-specific training needed) and evaluated on a real-world blur set, which matters because synthetic-Gaussian-trained deblurrers generalize poorly to CCTV motion blur | Avoids paired-data training entirely; targets real (not synthetic) blur; faster than full multi-step diffusion via consistency distillation | Still diffusion-based → slower than a CNN deblurrer; identity-preservation on faces not specifically validated in the paper | HIDE (synthetic), RealBlur (real-world) — as used in the paper itself | High |
 | 2C | Deblurring — efficiency benchmark context | Efficient/event-based deblurring challenges | AIM 2025: Feijoo et al., **Efficient Real-World Deblurring using Single Images: AIM 2025 Challenge Report**, ICCVW 2025 (arXiv:2510.12788); NTIRE 2026: **The Second Challenge on Event-Based Image Deblurring at NTIRE 2026** | Both confirmed as real, recent challenge-report papers. AIM 2025 caps models at <5M parameters / <200 GMACs — directly relevant if you need edge/real-time deployment. The NTIRE 2026 challenge needs event-camera input, which ordinary CCTV does not have, so it is context/benchmarking material rather than a directly deployable stage | Gives you a credible "efficient deblurring" citation and parameter/GMAC budget to benchmark against | Event-based NTIRE work is **not applicable unless your camera has an event sensor** — flag this in your literature review so an examiner doesn't think you deployed it | RSBlur (AIM 2025), HighREV (NTIRE event challenge) | Medium (AIM baseline), N/A for event-based unless you have event-camera hardware |
-| 2D | Low-light / brightness enhancement | Zero-DCE++ or Retinex-based enhancement | Li, Guo & Loy, *Zero-Reference Deep Curve Estimation for Low-Light Image Enhancement (Zero-DCE / Zero-DCE++)*, TPAMI 2021 | Well-established, zero-reference (no paired data needed), extremely lightweight, deployed widely in production low-light pipelines | Very fast, no training data required, preserves structure well | Not a 2025–2026 paper — cite it as an established baseline, not a "frontier" result | LOL, LOL-v2, SICE; NTIRE 2026 "Efficient Low Light Image Enhancement" challenge report is a legitimate 2026 comparator if you want a frontier reference | Low |
-| 3 | Face detection | RetinaFace (production) / YOLOv11-face-style single-stage detectors | Deng et al., *RetinaFace: Single-Shot Multi-Level Face Localisation in the Wild*, CVPR 2020 | Still the dominant open-source choice because it jointly predicts box + 5-point landmarks needed for alignment | Landmarks come "for free"; strong small-face performance (important for CCTV) | Not a 2025–2026 paper; "YOLOv11-face" is a community fine-tune/repo, **not a peer-reviewed publication** — do not cite it as one in your thesis | WIDER FACE | Low-Medium |
+| 2D | Low-light enhancement | π-Diff (recommended frontier) / Zero-DCE++ (baseline) | Wang et al., **π-Diff: Physically-Inspired Low-Light Image Enhancement with Structure-Preserving Diffusion Priors**, CVPR 2026 Workshop (LoViF); Li et al., *Zero-DCE++*, TPAMI 2021 | π-Diff is a training-free diffusion framework designed specifically to avoid hallucinated content, color distortion, structural degradation, and over-enhancement in extremely dark scenes. It aligns closely with the identity-preservation goals of the overall surveillance pipeline. Zero-DCE++ remains the lightweight practical baseline. | π-Diff: strong structure preservation, no training required, diffusion-quality enhancement. Zero-DCE++: extremely fast and lightweight. | π-Diff is slower than Zero-DCE++; workshop publication rather than main-conference paper. | LOL, LOL-v2, SICE; NTIRE 2026 Efficient Low-Light Enhancement Challenge | Medium |
+| 3 | Face detection | RetinaFace (baseline) / SFE-DETR (frontier) | RetinaFace: Deng et al., CVPR 2020; Yang, Jiang & Song, **SFE-DETR: An Enhanced Transformer-Based Face Detector for Small Target Faces in Open Complex Scenes**, Sensors 2025/2026 | SFE-DETR targets small, degraded, dense, and partially occluded faces in open complex scenes. These characteristics closely match CCTV surveillance environments and provide a modern transformer-based comparison against RetinaFace. | Better small-face performance, transformer architecture, reduced parameter count, stronger degraded-image robustness. | Sensors venue rather than CVPR/ICCV-tier conference; newer ecosystem and fewer implementations. | WIDER FACE | Medium |
 | 4 | Face alignment | 5-point / 68-point landmark-based similarity transform to 112×112 | Standard ArcFace-family preprocessing convention, not a separate paper | Well-defined, deterministic, and the de facto input contract for ArcFace/AdaFace-family recognizers | Nearly free computationally; improves recognition more than adding another restoration stage | Fails ungracefully on extreme pose/occlusion | Same as detection stage | Low |
-| 5 | Face recognition (embedding) | ArcFace (baseline) / AdaFace (quality-adaptive, recommended for CCTV) | ArcFace: Deng et al., CVPR 2019; AdaFace: Kim, Jain & Liu, **AdaFace: Quality Adaptive Margin for Face Recognition**, CVPR 2022 | AdaFace confirmed as a genuine, still heavily-cited (2022, not 2025–2026, correcting the earlier draft) method whose entire motivation — down-weighting unrecognizable low-quality faces via a feature-norm-adaptive margin — is exactly the CCTV problem your FYP targets | Reported double-digit error reduction on mixed-quality IJB-B/IJB-C benchmarks vs. ArcFace-family baselines; no extra quality-assessment network needed (uses feature norm as a free proxy) | AdaFace is 2022, not "2025–2026" as originally claimed — cite it accurately as an established, still-SOTA-adjacent method | MS1MV2/MS1MV3 (training), LFW/CFP-FP/AgeDB (clean eval), IJB-B/IJB-C (mixed-quality eval), **QMUL-SurvFace and QMUL-TinyFace (real low-res surveillance eval)** | Medium |
+| 5 | Face recognition (embedding) | ArcFace / AdaFace / MagFace / CurricularFace | ArcFace: CVPR 2019; AdaFace: CVPR 2022; MagFace: CVPR 2021; CurricularFace: CVPR 2020 | Provides a complete comparison between classical margin-based recognition, quality-adaptive recognition, quality-aware representation learning, and curriculum-based hard-sample optimization. | Strong ablation study covering the major modern face-recognition paradigms. | Requires additional experimentation and evaluation time. | MS1MV3, Glint360K, LFW, CFP-FP, AgeDB, IJB-B, IJB-C, QMUL-SurvFace, QMUL-TinyFace | Medium-High |
 | 6 | Identity tracking across frames | ByteTrack or BoT-SORT (associate face/person boxes over time) | ByteTrack: Zhang et al., ECCV 2022; BoT-SORT: Aharon et al., arXiv 2022 | Both are the standard, still-dominant multi-object trackers layered on top of a detector; not 2025–2026 but appropriately cited as established infrastructure | Reduces redundant recognition calls; gives persistent IDs across frames | Track fragmentation under long occlusion; not identity-aware by itself (needs the recognizer's embedding to actually confirm identity, not just track continuity) | MOT17, MOT20 (generic benchmark); your own CCTV footage for qualitative evaluation | Medium |
 | 7 | Database matching | Cosine similarity / ANN search (FAISS, HNSW) over embeddings | Not paper-specific; standard vector-search engineering | Sub-linear search at scale | Simple, well-documented libraries | Threshold selection (FAR/FRR trade-off) needs careful evaluation, not just "similarity > 0.5" | Your enrolled-identity gallery + QMUL-SurvFace as an open-set stress test | Low-Medium |
 | — | Non-face object detection/tracking (traffic) | YOLOv11 / RT-DETR + ByteTrack/BoT-SORT | YOLOv11: Ultralytics, 2024 release (not a peer-reviewed paper — cite the Ultralytics documentation/GitHub, not a nonexistent "YOLOv11 paper"); RT-DETR: Zhao et al., CVPR 2024 | Independent branch from the face pipeline, as in your original design | Real-time, mature ecosystem | YOLOv11 has no formal peer-reviewed paper as of writing — this is a citation-accuracy issue you should flag explicitly to your supervisor | BDD100K, UA-DETRAC | Low |
@@ -77,6 +77,28 @@
 
 ---
 
+## Face Recognition Ablation Models
+
+### MagFace (CVPR 2021)
+
+MagFace introduces a quality-aware face representation where the feature magnitude itself acts as a quality indicator. Higher-quality images naturally produce embeddings with larger magnitudes, enabling simultaneous recognition and quality assessment.
+
+Relevance:
+- Most conceptually similar comparator to AdaFace.
+- Strong candidate for surveillance-quality imagery.
+- Provides direct comparison between quality-aware representation learning and quality-adaptive margin learning.
+
+### PartialFC (CVPR 2022)
+
+PartialFC is primarily a large-scale efficient training strategy rather than a new recognition loss function.
+
+Relevance:
+- Efficient training baseline.
+- Useful if retraining recognition models on MS1MV3 or Glint360K.
+- Included primarily for scalability comparisons.
+
+---
+
 ## 5. Approach A — Practical FYP Pipeline (Single GPU, Reproducible)
 
 ```
@@ -130,31 +152,44 @@ ByteTrack (persistent ID across frames)
 CCTV Frame
    │
    ▼
-Learned Frame Quality Assessment (ViT-based blur/noise/exposure estimator)
+ViT-Based Frame Quality Assessment
    │
    ▼
-Unified/Conditional Restoration
-   ├── DreamSR or InvSR (diffusion SR, adaptive step count)
-   ├── ID-CDM (consistency-distilled deblurring, real-blur-focused)
-   └── Diffusion-based low-light enhancement
+Conditional Restoration
+   ├── DreamSR / InvSR (Diffusion SR)
+   ├── ID-CDM (Zero-Shot Deblurring)
+   └── π-Diff (Low-Light Enhancement)
    │
    ▼
-RetinaFace / transformer-based detector
+Face Detection
+   ├── RetinaFace
+   └── SFE-DETR
    │
    ▼
-Alignment
+Face Alignment
    │
    ▼
-AdaFace embedding (with ablation vs. ArcFace/MagFace/PartialFC/CurricularFace)
+Face Recognition Ablation
+   ├── ArcFace
+   ├── AdaFace
+   ├── MagFace
+   ├── CurricularFace
+   └── PartialFC
    │
    ▼
-FAISS/HNSW gallery search
+FAISS / HNSW Search
    │
    ▼
-BoT-SORT (appearance + motion-aware tracking)
+BoT-SORT Tracking
    │
    ▼
-Identity-aware evaluation: PSNR/SSIM/LPIPS AND downstream recognition accuracy on QMUL-SurvFace/TinyFace, before vs. after restoration
+Identity-Aware Evaluation
+      ├── PSNR
+      ├── SSIM
+      ├── LPIPS
+      ├── Rank-1 Accuracy
+      ├── TAR@FAR
+      └── QMUL-SurvFace / QMUL-TinyFace
 ```
 
 **Rationale:** this is the version worth writing up as a genuine research contribution — the core novelty is the identity-aware, task-driven evaluation protocol (measuring recognition accuracy pre/post restoration, not just image-quality metrics), combined with a head-to-head of modular vs. diffusion-based restoration under an adaptive/conditional gate.
@@ -188,7 +223,31 @@ Identity-aware evaluation: PSNR/SSIM/LPIPS AND downstream recognition accuracy o
 
 ---
 
-## 8. Final Recommendation
+## 8. Research Question:
+
+Can modern diffusion-based restoration methods
+(DreamSR, InvSR, ID-CDM, π-Diff)
+improve surveillance face-recognition accuracy on
+real low-quality CCTV imagery without introducing
+identity-altering hallucinations?
+
+## Novelty:
+
+Rather than evaluating restoration solely using
+PSNR, SSIM, and LPIPS, the proposed system evaluates
+restoration through downstream identity preservation
+using ArcFace, AdaFace, MagFace, and CurricularFace
+on surveillance-native benchmarks
+(QMUL-SurvFace and QMUL-TinyFace).
+
+This creates a task-aware evaluation framework
+for surveillance restoration that directly measures
+whether visual enhancement helps or harms
+recognition performance.
+
+---
+
+## 9. Final Recommendation
 
 For a standard one-semester FAST/NUCES FYP timeline, **build Approach A first as your working system**, then implement **one frontier SR model from Approach B (InvSR is the best single choice — it is CVPR 2025, has a public, well-documented repo, and its variable-step design lets you directly ablate "how much diffusion is enough" for identity preservation)** as a comparison arm rather than replacing the whole pipeline.
 
