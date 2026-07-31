@@ -1,14 +1,8 @@
-# DreamSR: Towards Ultra-High-Resolution Image Super-Resolution
-
 ## General overview
 
 DreamSR (CVPR 2026 / arXiv 2605.15682) proposes a diffusion-based super-resolution system tailored for ultra-high-resolution (4K+) images and for patch-wise inference regimes common in large-image restoration. The paper addresses two core failure modes of patch-wise diffusion SR: (1) local over-generation where patches hallucinate inconsistent/global features, and (2) insufficient local texture/detail when global context is missing. DreamSR combines a receptive-field–enhanced diffusion transformer backbone with a dual-branch multi-modal ControlNet (MM-ControlNet) to fuse local patch cues and global semantics, and uses a stage-specific training and inference strategy to produce faithful, high-detail SR for very large images.
 
-Source (paper PDF in this repo): papers/2605.15682v1.pdf
-https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
-
-
-## Key contributions (short)
+## Key contributions
 
 - Dual-branch MM-ControlNet that merges local patch-specific prompts (ControlNet style) and global semantic features from a pre-trained diffusion transformer (DiT) to prevent patch inconsistency and over-generation.
 - Receptive-Field Enhancement (RFE) strategy that increases the model's effective context for patches and helps restore fine local textures.
@@ -26,7 +20,7 @@ https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
 - Receptive-Field Enhancement modules inserted to expand the model's effective spatial context when processing patches (dilated attention, cross-patch tokens, or overlapping context tokens — see paper for specifics).
 
 
-## Method details (concise)
+## Method details
 
 1. Patch-wise problem framing
    - Ultra-high-res images are split into patches for memory/compute reasons.
@@ -48,7 +42,7 @@ https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
    - Optional adaptive step count: for patches flagged as "easy" use fewer diffusion steps (or one-step distilled variant) and for difficult patches use more steps.
 
 
-## Training and datasets (as described)
+## Training and datasets
 
 - Uses mixed-resolution training with emphasis on high-resolution images (4K and above) and multi-scale augmentation to expose the model to large-context cues.
 - Common SR training sets (DIV2K, Flickr2K, Real-World SR datasets) extended with large images or tiling; the paper may use high-resolution web images or curated high-res datasets for final evaluation.
@@ -57,21 +51,12 @@ https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
 (See paper for exact dataset names, training schedule, optimizer, and hyperparameters.)
 
 
-## Experiments & results (summary)
+## Experiments
 
 - Benchmarks: evaluations on ultra-high-resolution SR tasks showing DreamSR improves quantitative metrics (PSNR/SSIM/LPIPS) in many settings and, importantly, qualitative texture realism at 4K+.
 - Ablations: components ablated include removing the global branch, removing RFE, and varying overlap/window sizes for patching. Results show both MM-ControlNet and RFE are crucial for cross-patch consistency and texture fidelity.
 - Runtime: patch-wise diffusion is still more expensive than one-shot CNN/GAN SR; the authors discuss one-step distilled variants (or adaptive step strategies) as practical speedups.
 
-
-## Implementation notes & reproducibility
-
-- Authors release code and checkpoints: https://github.com/jerrydong0219/DreamSR (also referenced in the paper).
-- Practical inference tips in paper:
-  - Use overlapping patches + blending to hide seam artifacts.
-  - Precompute and reuse the global DiT features for all patches of the same image.
-  - Use receptive-field tokens or cross-patch attention where available to reduce boundary artifacts.
-- Hardware: large VRAM recommended for training on very large images; inference can be done patch-wise on consumer GPUs but will be slower than CNN-based SR.
 
 
 ## Limitations & failure modes
@@ -86,14 +71,6 @@ https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
 - Use DreamSR selectively: flag frames/patches with very low quality (via QA module) for DreamSR restoration and leave the rest to faster methods (Real-ESRGAN / one-step distilled models).
 - Precompute global DiT features per frame (or per downsampled image) to reuse across patches and reduce runtime overhead.
 - Evaluate identity preservation explicitly (e.g., AdaFace recognition accuracy on QMUL-SurvFace/TinyFace) before deploying — diffusion-based SR can improve visual detail while harming identity embeddings.
-
-
-## References / links
-
-- Paper (local copy): papers/2605.15682v1.pdf
-  https://github.com/Abser-Mansoor/thing/blob/main/papers/2605.15682v1.pdf
-- Code (paper authors): https://github.com/jerrydong0219/DreamSR
-- CVPR poster / supplementary: see arXiv and CVPR virtual poster links in the paper header.
 
 
 ---
