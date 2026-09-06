@@ -86,6 +86,14 @@ This provides robust multi-scale feature fusion while keeping the computational 
 
 ---
 
+ISD-Net (Backbone): Keeps tiny faces from disappearing as the image shrinks, and makes the "eyes" lighter and faster.
+
+MHMSA (Attention): Forces the "brain" to actually pay attention to the tiny dots in the corner, instead of just staring at the big obvious objects.
+
+SFE-FPN (Mixer) : Combines all the zoom levels (P2, P3, P4, P5) perfectly, preserving tiny details while removing background clutter, without making the computer slow.
+
+---
+
 ## 📊 Key Results
 
 ### SCUT-HEAD Dataset
