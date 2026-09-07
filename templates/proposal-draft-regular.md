@@ -4,11 +4,11 @@
 - **Title of Project:** Identity-Preserving Adaptive Surveillance Restoration & Recognition Pipeline
 - **Session:** Fall 2026
 - **Program/Department:** BS AI/CS (FAST School of Computing, Karachi)
-- **Type of Project (recommended):** **Traditional** *(please confirm: Traditional / Industrial / Continuing)*
+- **Type of Project (recommended):** **Industrial**
 - **Nature of Project:** **Research & Development**
 - **SDGs (recommended):** **Industry, Innovation and Infrastructure (SDG 9)** and **Decent Work and Economic Growth (SDG 8)** *(please confirm final selection)*
 - **Area of Specialization:** **Artificial Intelligence (AI), Data Science and Analytics**
-- **Project Group Members:** *To be inserted from Readme (Reg. #, names, emails, phone, CGPA, signatures)*
+- **Project Group Members:** PLACEHOLDER: Group member details (Reg. #, names, emails, phone, CGPA, signatures)
 
 ## Project Abstract (250–300 words)
 Low-quality surveillance imagery (low resolution, motion blur, noise, and poor illumination) significantly degrades face recognition reliability in real-world CCTV settings. Existing restoration studies often optimize visual quality metrics only, while recognition studies commonly evaluate on cleaner or synthetically degraded data. This creates a practical research gap: visually improved outputs may still alter identity-discriminative features and reduce recognition reliability.

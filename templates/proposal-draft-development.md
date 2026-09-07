@@ -3,11 +3,11 @@
 ## Project Registration (Draft)
 - **Title of Project:** Identity-Preserving Adaptive Surveillance Restoration & Recognition Pipeline
 - **Session:** Fall 2026
-- **Type of Project (recommended):** **Traditional** *(please confirm: Traditional / Industrial / Continuing)*
+- **Type of Project (recommended):** **Industrial**
 - **Nature of Project:** **Research & Development**
 - **SDGs (recommended):** **Industry, Innovation and Infrastructure (SDG 9)** and **Decent Work and Economic Growth (SDG 8)** *(please confirm final selection)*
 - **Area of Specialization:** **Artificial Intelligence (AI), Data Science and Analytics**
-- **Project Group Members:** *To be inserted from Readme (Reg. #, names, emails, phone, CGPA, signatures)*
+- **Project Group Members:** PLACEHOLDER: Group member details (Reg. #, names, emails, phone, CGPA, signatures)
 
 ## Project Abstract
 This project develops and evaluates an identity-preserving surveillance analytics pipeline for degraded CCTV imagery. The system targets low resolution, blur, and poor lighting while maintaining recognition reliability. A quality-aware control stage decides whether and which restoration modules to apply. The restoration branch uses advanced models for super-resolution, deblurring, and low-light enhancement; the recognition branch performs face detection, alignment, embedding generation, and identity matching with temporal tracking.
