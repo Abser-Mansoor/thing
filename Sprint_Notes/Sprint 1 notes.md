@@ -13,6 +13,9 @@ Re evaluate proposed architectures feasibility, frontier status and compatibilit
   9. p-Diff does not have any github repository as of 30/9/2026 but there are similar diffusion based low light enhancement technologies that have published codes and weights like LightenDiffusion, QuadPrior (trained on COCO) and Diff-Retinex++. https://github.com/daooshee/QuadPrior/, https://github.com/JianghaiSCU/LightenDiffusion, https://github.com/XunpengYi/Diff-Retinex-Plus.
   10. While QMUL does provide low lighting images, it does not separate them from the rest so we must isolate this dataset by ourselves and test enhancement models.
   11. Compare SR alone against deblur then SR, with a gated variant. If SR alone matches deblur then SR on identity metrics, we will show that the deblurring stage is unnecessary at that resolution.
+  12. To truly confirm that our restoration engine works on real CCTV degradation rather than a synthetic approximation, we must validate using datasets that contain paired, non-synthetic, multi-resolution identities. Instead of generating synthetic degradation, we must test our NAFNet -> LightenDiffusion -> InvSR pipeline on datasets like:
+  13. IJB-S (IARPA Janus Surveillance): Features genuine low-resolution public surveillance video matched back to high-resolution, multi-ethnic enrollment mugshots.
+  14. BRIAR (Biometric Recognition & Identification at Altitude and Range): Contains real-world long-range, atmospheric, and security camera footage matched against close-up ground truth. 
 
 ## Missing Items identified by Claude revision
 
